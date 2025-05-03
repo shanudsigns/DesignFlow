@@ -101,6 +101,14 @@ const Tasks: React.FC = () => {
     setShowTaskForm(true);
   };
 
+  const handleEditTask = (taskId: string) => {
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+      setEditingTask(task);
+      setShowTaskForm(true);
+    }
+  };
+
   const handleSubmitTask = (taskData: Omit<Task, 'id' | 'createdAt'>) => {
     if (editingTask) {
       updateTask(editingTask.id, taskData);
@@ -116,7 +124,10 @@ const Tasks: React.FC = () => {
       <TaskForm
         initialTask={editingTask}
         onSubmit={handleSubmitTask}
-        onCancel={() => setShowTaskForm(false)}
+        onCancel={() => {
+          setShowTaskForm(false);
+          setEditingTask(undefined);
+        }}
       />
     );
   }
@@ -244,7 +255,7 @@ const Tasks: React.FC = () => {
               <div key={task.id} className="relative">
                 <TaskCard
                   task={task}
-                  onEdit={() => {}}
+                  onEdit={handleEditTask}
                   onDelete={handleDeleteTask}
                   onAssignToProduction={handleAssignToProduction}
                 />

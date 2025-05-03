@@ -110,14 +110,36 @@ const TaskCard: React.FC<TaskCardProps> = ({
           <div className="mb-4">
             <button
               onClick={() => setShowBrief(!showBrief)}
-              className="flex items-center text-sm text-gray-600 hover:text-gray-900 mb-2"
+              className="flex items-center text-sm text-gray-600 hover:text-gray-900"
             >
               <FileText size={14} className="mr-1" />
-              View Brief
+              {showBrief ? 'Hide Brief' : 'View Brief'}
             </button>
             {showBrief && (
-              <div className="text-sm bg-gray-50 rounded-lg p-3">
+              <div className="mt-2 text-sm bg-gray-50 rounded-lg p-3">
                 <p className="text-gray-700 whitespace-pre-wrap">{task.brief}</p>
+                {task.briefAttachments && task.briefAttachments.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-gray-200">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Paperclip size={14} className="text-gray-500" />
+                      <span className="text-sm text-gray-600">Brief Attachments</span>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {task.briefAttachments.map(attachment => (
+                        <a
+                          key={attachment.id}
+                          href={attachment.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs px-2 py-1 bg-gray-100 rounded hover:bg-gray-200 flex items-center gap-1"
+                        >
+                          <FileText size={12} />
+                          {attachment.name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
